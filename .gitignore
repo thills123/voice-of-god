@@ -1,0 +1,18 @@
+# Jekyll build output and caches
+_site/
+_site_preview/
+.jekyll-cache/
+.jekyll-metadata
+.sass-cache/
+
+# Ruby / Bundler
+Gemfile.lock
+.bundle/
+vendor/
+
+# Windows / editors
+Thumbs.db
+desktop.ini
+.DS_Store
+*.swp
+*~

@@ -1,0 +1,19 @@
+<aside class="author-box wrap wrap--narrow" aria-label="About the author">
+  <div class="author-box__avatar" aria-hidden="true">{{ site.author.name | slice: 0 }}</div>
+  <div class="author-box__body">
+    <p class="author-box__name">
+      <a href="{{ '/about/' | relative_url }}">{{ site.author.name }}</a>
+    </p>
+    <p class="author-box__bio">{{ site.author.bio }}</p>
+    <p class="author-box__links">
+      <a href="{{ '/about/' | relative_url }}">About</a>
+      <a href="{{ '/feed.xml' | relative_url }}">RSS</a>
+      {% if site.social.github and site.social.github != "" %}
+        <a href="https://github.com/{{ site.social.github }}" rel="noopener">GitHub</a>
+      {% endif %}
+      {% if site.author.email and site.author.email != "" %}
+        <a href="mailto:{{ site.author.email }}">Email</a>
+      {% endif %}
+    </p>
+  </div>
+</aside>

@@ -1,0 +1,55 @@
+---
+title: Topics
+description: "Every category and tag on Voice of God."
+permalink: /topics/
+layout: default
+---
+{% assign sorted_cats = site.categories | sort %}
+{% assign sorted_tags = site.tags | sort %}
+
+<section class="archive wrap">
+  <header class="archive__header">
+    <p class="kicker">Index</p>
+    <h1 class="archive__title">Topics</h1>
+    <p class="archive__count">
+      {{ site.posts.size }} article{% if site.posts.size != 1 %}s{% endif %}
+      across {{ site.categories.size }} categor{% if site.categories.size != 1 %}ies{% else %}y{% endif %}
+      and {{ site.tags.size }} tag{% if site.tags.size != 1 %}s{% endif %}.
+    </p>
+  </header>
+
+  <div class="topics">
+    <section class="topics__group" aria-labelledby="topics-categories">
+      <h2 class="topics__title" id="topics-categories">Categories</h2>
+      <ul class="topic-list">
+        {% for category in sorted_cats %}
+          {% assign name = category[0] %}
+          {% assign items = category[1] %}
+          <li>
+            <a class="topic" href="{{ '/category/' | append: name | slugify | append: '/' | relative_url }}">
+              <span class="topic__name">{{ name }}</span>
+              <span class="topic__count">{{ items.size }}</span>
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    </section>
+
+    <section class="topics__group" aria-labelledby="topics-tags">
+      <h2 class="topics__title" id="topics-tags">Tags</h2>
+      <ul class="topic-list topic-list--tags">
+        {% for tag in sorted_tags %}
+          {% assign name = tag[0] %}
+          {% assign items = tag[1] %}
+          <li>
+            <a class="tag" href="{{ '/tag/' | append: name | slugify | append: '/' | relative_url }}">
+              {{ name }} <span class="tag__count">{{ items.size }}</span>
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    </section>
+  </div>
+
+  <p class="archive__back"><a href="{{ '/search/' | relative_url }}">Search everything &rarr;</a></p>
+</section>

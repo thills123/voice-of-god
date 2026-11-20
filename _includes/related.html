@@ -1,0 +1,18 @@
+{% assign cat = page.categories | first %}
+{% if cat %}
+  {% assign pool = site.categories[cat] %}
+  {% assign related = pool | where_exp: "item", "item.url != page.url" %}
+  {% if related.size > 0 %}
+  <section class="related wrap" aria-labelledby="related-title">
+    <div class="section-head">
+      <h2 id="related-title">More in {{ cat }}</h2>
+      <a href="{{ '/category/' | append: cat | slugify | append: '/' | relative_url }}">See all</a>
+    </div>
+    <div class="related__grid">
+      {% for post in related limit: 3 %}
+        {% include post-card.html post=post %}
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+{% endif %}

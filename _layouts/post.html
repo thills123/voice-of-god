@@ -1,0 +1,72 @@
+---
+layout: default
+---
+{% assign cat = page.categories | first %}
+{% assign cat_slug = cat | slugify %}
+{% assign word_count = content | strip_html | number_of_words %}
+{% assign read_time = word_count | divided_by: 220 | plus: 1 %}
+
+<article class="post" itemscope itemtype="https://schema.org/BlogPosting">
+  <header class="post__header wrap wrap--narrow">
+    {% if cat %}
+      <p class="kicker">
+        <a href="{{ '/category/' | append: cat_slug | append: '/' | relative_url }}">{{ cat }}</a>
+      </p>
+    {% endif %}
+
+    <h1 class="post__title" itemprop="headline">{{ page.title }}</h1>
+
+    {% if page.description %}
+      <p class="post__standfirst" itemprop="description">{{ page.description }}</p>
+    {% endif %}
+
+    <div class="post__meta">
+      <span itemprop="author" itemscope itemtype="https://schema.org/Person">
+        <span itemprop="name">{{ page.author | default: site.author.name }}</span>
+      </span>
+      <span aria-hidden="true">&middot;</span>
+      <time datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">{{ page.date | date: "%B %-d, %Y" }}</time>
+      <span aria-hidden="true">&middot;</span>
+      <span>{{ read_time }} min read</span>
+    </div>
+  </header>
+
+  {% if page.image %}
+    <figure class="post__cover wrap">
+      <img src="{{ page.image | relative_url }}"
+           alt="{{ page.image_alt | default: page.title }}"
+           width="1600" height="1000" decoding="async">
+      {% if page.image_caption %}
+        <figcaption>{{ page.image_caption }}</figcaption>
+      {% endif %}
+    </figure>
+  {% endif %}
+
+  <div class="wrap wrap--narrow">
+    <details class="toc" data-toc hidden>
+      <summary class="toc__summary">On this page</summary>
+      <nav class="toc__nav" data-toc-nav aria-label="Table of contents"></nav>
+    </details>
+
+    <div class="prose" data-prose itemprop="articleBody">
+      {{ content }}
+    </div>
+
+    {% if page.tags.size > 0 %}
+      <ul class="tag-list" aria-label="Tags">
+        {% for tag in page.tags %}
+          <li>
+            <a class="tag" href="{{ '/tag/' | append: tag | slugify | append: '/' | relative_url }}">{{ tag }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+
+    {% include share.html %}
+  </div>
+
+  {% include author.html %}
+  {% include post-nav.html %}
+  {% include related.html %}
+  {% include comments.html %}
+</article>

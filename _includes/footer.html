@@ -1,0 +1,24 @@
+<footer class="site-footer">
+  <div class="wrap site-footer__inner">
+    <div class="site-footer__brand">
+      <p class="site-footer__title">{{ site.title }}</p>
+      <p class="site-footer__tagline">{{ site.tagline }}</p>
+    </div>
+
+    <nav class="site-footer__nav" aria-label="Footer">
+      {% for item in site.navigation %}
+        <a href="{{ item.url | relative_url }}">{{ item.title }}</a>
+      {% endfor %}
+      <a href="{{ '/search/' | relative_url }}">Search</a>
+      <a href="{{ '/feed.xml' | relative_url }}">RSS</a>
+      {% if site.social.github and site.social.github != "" %}
+        <a href="https://github.com/{{ site.social.github }}" rel="me noopener">GitHub</a>
+      {% endif %}
+    </nav>
+
+    <div class="site-footer__meta">
+      <p>&copy; {{ site.time | date: "%Y" }} {{ site.author.name }}. All rights reserved.</p>
+      <p class="muted">Written in Notepad. Built with Jekyll. Hosted on GitHub Pages.</p>
+    </div>
+  </div>
+</footer>

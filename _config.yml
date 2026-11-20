@@ -1,0 +1,120 @@
+# =============================================================================
+#  VOICE OF GOD — site configuration
+#
+#  This is the only file you normally need to touch besides your articles.
+#  Open it in Notepad, edit a value, save, then commit + push.
+# =============================================================================
+
+title: "Voice of God"
+tagline: "Essays, notes, and ideas worth saying out loud."
+description: >-
+  Voice of God is the personal blog of Tommy: essays and notes on technology,
+  design, attention, and the craft of thinking clearly.
+
+author:
+  name: "Tommy"
+  bio: "Writes about technology, design, and the art of paying attention."
+  email: ""                       # optional — shown on the contact page
+  url: "https://github.com/thills123"
+
+# --- Where the site lives ----------------------------------------------------
+# PROJECT site (repository named: voice-of-god)  -> keep these two values.
+url: "https://thills123.github.io"
+baseurl: "/voice-of-god"
+
+# USER site (repository named: thills123.github.io) -> comment the two lines
+# above and uncomment the two below instead.
+# url: "https://thills123.github.io"
+# baseurl: ""
+#
+# Note: the GitHub Actions workflow passes the correct baseurl automatically,
+# so this only matters when you preview the site locally.
+
+lang: en
+timezone: UTC
+
+# --- URLs --------------------------------------------------------------------
+# Clean, stable article URLs:  /what-static-sites-get-right/
+permalink: /:title/
+
+# --- Pagination --------------------------------------------------------------
+paginate: 6
+paginate_path: "/page/:num/"
+
+# Put <!--more--> in an article where the homepage teaser should stop.
+excerpt_separator: "<!--more-->"
+
+# --- Navigation --------------------------------------------------------------
+navigation:
+  - title: Writing
+    url: /
+  - title: Topics
+    url: /topics/
+  - title: About
+    url: /about/
+  - title: Contact
+    url: /contact/
+
+# --- Plugins -----------------------------------------------------------------
+# Installed automatically by GitHub Actions. Nothing to do here.
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-sitemap
+  - jekyll-paginate
+  - jekyll-archives
+
+# Automatic /category/name/ and /tag/name/ pages
+jekyll-archives:
+  enabled: [categories, tags]
+  layouts:
+    category: archive
+    tag: archive
+  permalinks:
+    category: /category/:name/
+    tag: /tag/:name/
+
+# --- Defaults ----------------------------------------------------------------
+defaults:
+  - scope:
+      type: pages
+    values:
+      layout: page
+
+# --- Social ------------------------------------------------------------------
+social:
+  github: thills123
+  x: ""            # e.g. "tommy" — leave empty to hide the X/Twitter link
+
+# --- Comments (giscus, powered by GitHub Discussions) ------------------------
+# Turn on after installing the giscus app on the repository:
+#   https://github.com/apps/giscus
+# then paste the repo/category IDs from https://giscus.app into this block.
+comments:
+  enabled: false
+  repo: "thills123/voice-of-god"
+  repo_id: ""
+  category: "Announcements"
+  category_id: ""
+  mapping: "pathname"
+
+# --- Markdown / build --------------------------------------------------------
+markdown: kramdown
+highlighter: rouge
+
+kramdown:
+  input: GFM
+  hard_wrap: false
+  syntax_highlighter: rouge
+
+sass:
+  style: compressed
+
+# Files Jekyll should not publish.
+exclude:
+  - scripts
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - vendor
+  - node_modules

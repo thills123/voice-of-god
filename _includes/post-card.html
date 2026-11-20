@@ -1,0 +1,39 @@
+{% assign p = include.post %}
+{% assign cat = p.categories | first %}
+{% assign cat_slug = cat | slugify %}
+{% assign teaser = p.excerpt | strip_html | normalize_whitespace %}
+{% if teaser == "" or teaser == nil %}
+  {% assign teaser = p.content | strip_html | normalize_whitespace | truncate: 160 %}
+{% endif %}
+{% assign word_count = p.content | strip_html | number_of_words %}
+{% assign read_time = word_count | divided_by: 220 | plus: 1 %}
+
+<article class="card">
+  <a class="card__media" href="{{ p.url | relative_url }}" tabindex="-1" aria-hidden="true">
+    {% if p.image %}
+      <img class="card__img" src="{{ p.image | relative_url }}" alt="" width="1600" height="1000" loading="lazy" decoding="async">
+    {% else %}
+      <span class="card__thumb card__thumb--{{ p.title.size | modulo: 5 | plus: 1 }}">{{ p.title | slice: 0 }}</span>
+    {% endif %}
+  </a>
+
+  <div class="card__body">
+    {% if cat %}
+      <p class="kicker">
+        <a href="{{ '/category/' | append: cat_slug | append: '/' | relative_url }}">{{ cat }}</a>
+      </p>
+    {% endif %}
+
+    <h2 class="card__title">
+      <a href="{{ p.url | relative_url }}">{{ p.title }}</a>
+    </h2>
+
+    <p class="card__excerpt">{{ teaser | truncate: 160 }}</p>
+
+    <p class="card__meta">
+      <time datetime="{{ p.date | date_to_xmlschema }}">{{ p.date | date: "%b %-d, %Y" }}</time>
+      <span aria-hidden="true">&middot;</span>
+      <span>{{ read_time }} min read</span>
+    </p>
+  </div>
+</article>

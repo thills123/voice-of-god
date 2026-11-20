@@ -1,0 +1,101 @@
+---
+layout: default
+---
+{% assign featured = nil %}
+{% if paginator.page == 1 %}
+  {% for post in paginator.posts %}
+    {% if post.featured %}
+      {% assign featured = post %}
+      {% break %}
+    {% endif %}
+  {% endfor %}
+{% endif %}
+
+<section class="masthead">
+  <div class="wrap masthead__inner">
+    <p class="masthead__eyebrow">A blog by {{ site.author.name }}</p>
+    <h1 class="masthead__title">{{ site.tagline }}</h1>
+    <p class="masthead__lede">{{ site.description }}</p>
+  </div>
+</section>
+
+<div class="wrap">
+  {% if featured %}
+    {% assign fcat = featured.categories | first %}
+    {% assign fcat_slug = fcat | slugify %}
+    {% assign fwords = featured.content | strip_html | number_of_words %}
+    <section class="featured" aria-labelledby="featured-title">
+      <a class="featured__media" href="{{ featured.url | relative_url }}" tabindex="-1" aria-hidden="true">
+        {% if featured.image %}
+          <img src="{{ featured.image | relative_url }}" alt="" width="1600" height="1000" decoding="async">
+        {% else %}
+          <span class="card__thumb card__thumb--{{ featured.title.size | modulo: 5 | plus: 1 }}">{{ featured.title | slice: 0 }}</span>
+        {% endif %}
+      </a>
+
+      <div class="featured__body">
+        <p class="kicker kicker--accent">
+          Featured{% if fcat %} &middot; <a href="{{ '/category/' | append: fcat_slug | append: '/' | relative_url }}">{{ fcat }}</a>{% endif %}
+        </p>
+        <h2 class="featured__title" id="featured-title">
+          <a href="{{ featured.url | relative_url }}">{{ featured.title }}</a>
+        </h2>
+        <p class="featured__excerpt">{{ featured.excerpt | strip_html | normalize_whitespace | truncate: 240 }}</p>
+        <p class="card__meta">
+          <time datetime="{{ featured.date | date_to_xmlschema }}">{{ featured.date | date: "%B %-d, %Y" }}</time>
+          <span aria-hidden="true">&middot;</span>
+          <span>{{ fwords | divided_by: 220 | plus: 1 }} min read</span>
+        </p>
+      </div>
+    </section>
+  {% endif %}
+
+  <div class="home-grid">
+    <div class="home-grid__main">
+      <div class="section-head">
+        <h2>Latest writing</h2>
+        <a href="{{ '/topics/' | relative_url }}">Browse all topics</a>
+      </div>
+
+      <div class="post-grid">
+        {% for post in paginator.posts %}
+          {% if post.url != featured.url %}
+            {% include post-card.html post=post %}
+          {% endif %}
+        {% endfor %}
+      </div>
+
+      {% include pagination.html %}
+    </div>
+
+    <aside class="home-rail" aria-label="About this blog">
+      <section class="rail-block">
+        <h2 class="rail-block__title">Topics</h2>
+        <ul class="rail-list">
+          {% assign cats = site.categories | sort %}
+          {% for category in cats limit: 6 %}
+            {% assign cat_name = category[0] %}
+            {% assign cat_posts = category[1] %}
+            <li class="rail-list__item">
+              <a href="{{ '/category/' | append: cat_name | slugify | append: '/' | relative_url }}">
+                {{ cat_name }}
+                <span class="rail-list__count">{{ cat_posts.size }}</span>
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      </section>
+
+      <section class="rail-block">
+        <h2 class="rail-block__title">About</h2>
+        <p>{{ site.author.bio }}</p>
+        <p><a href="{{ '/about/' | relative_url }}">Read more about {{ site.author.name }} &rarr;</a></p>
+      </section>
+
+      <section class="rail-block">
+        <h2 class="rail-block__title">Follow</h2>
+        <p>New essays land here and in the <a href="{{ '/feed.xml' | relative_url }}">RSS feed</a>. No newsletter pop-ups, no tracking.</p>
+      </section>
+    </aside>
+  </div>
+</div>
