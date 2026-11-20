@@ -27,7 +27,7 @@ layout: default
           {% assign items = category[1] %}
           <li>
             <a class="topic" href="{{ '/category/' | append: name | slugify | append: '/' | relative_url }}">
-              <span class="topic__name">{{ name }}</span>
+              <span class="topic__name">{{ name | capitalize }}</span>
               <span class="topic__count">{{ items.size }}</span>
             </a>
           </li>

@@ -78,7 +78,7 @@ layout: default
             {% assign cat_posts = category[1] %}
             <li class="rail-list__item">
               <a href="{{ '/category/' | append: cat_name | slugify | append: '/' | relative_url }}">
-                {{ cat_name }}
+                {{ cat_name | capitalize }}
                 <span class="rail-list__count">{{ cat_posts.size }}</span>
               </a>
             </li>
